@@ -1,7 +1,6 @@
 package com.estafet.camelboot;
 
 import com.uber.jaeger.Configuration;
-import com.uber.jaeger.samplers.ProbabilisticSampler;
 import org.apache.camel.opentracing.starter.CamelOpenTracing;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -35,8 +34,7 @@ public class Application {
 
     @Bean
     public io.opentracing.Tracer jaegerTracer() {
-        return new Configuration("spring-boot", Configuration.SamplerConfiguration.fromEnv(),
-                new Configuration.ReporterConfiguration())
+        return Configuration.fromEnv()
                 .getTracer();
     }
 }

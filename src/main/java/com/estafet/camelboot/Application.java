@@ -35,7 +35,7 @@ public class Application {
 
     @Bean
     public io.opentracing.Tracer jaegerTracer() {
-        return new Configuration("spring-boot", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+        return new Configuration("spring-boot", Configuration.SamplerConfiguration.fromEnv(),
                 new Configuration.ReporterConfiguration())
                 .getTracer();
     }

@@ -5,7 +5,7 @@ See jaegercamel-demo2 for the other microservice
 
 Because the objective of this project is to demonstrate traceability using opentracing, the algorithm used here is highly inefficient
  
---
+---
 This project expects the following Environment variables
 
 + JAEGER_SAMPLER_TYPE	 - const

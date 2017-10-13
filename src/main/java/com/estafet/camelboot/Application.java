@@ -2,6 +2,7 @@ package com.estafet.camelboot;
 
 import com.uber.jaeger.Configuration;
 import org.apache.camel.opentracing.starter.CamelOpenTracing;
+import org.apache.camel.spring.boot.CamelAutoConfiguration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

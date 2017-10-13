@@ -4,8 +4,8 @@ import io.opentracing.Span;
 import io.opentracing.SpanContext;
 import io.opentracing.Tracer;
 import io.opentracing.propagation.Format;
-import io.opentracing.propagation.TextMapExtractAdapter;
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,19 +19,19 @@ public class ValidateService implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        String header = exchange.getIn().getHeader("CamelHttpQuery").toString();
-        int num = Integer.parseInt(header.substring(header.indexOf("=")+1));
+        Message message = exchange.getIn();
+        Map<String, Object> headers = message.getHeaders();
+        String header = headers.get("CamelHttpQuery").toString();
 
-        Map<String, Object> headers = exchange.getIn().getHeaders();
+        int num = Integer.parseInt(header.substring(header.indexOf("=") + 1));
 
-        SpanContext spanContext = tracer.extract(Format.Builtin.HTTP_HEADERS, new ObjectMapExtracterAdapter(headers));
-
+        SpanContext spanContext = tracer.extract(Format.Builtin.HTTP_HEADERS, new ObjectMapExtractAdapter(headers));
         Span span = tracer.buildSpan("ValidatePrime").asChildOf(spanContext).withTag("number", num).startManual();
 
-        boolean prime = num>1;
+        boolean prime = num > 1;
 
-        for(int x = 2; x < num && prime ; x++) {
-            prime = (num%x) != 0;
+        for (int x = 2; x < num && prime; x++) {
+            prime = (num % x) != 0;
         }
         exchange.getOut().setBody("{\"result\": " + prime + "}");
 

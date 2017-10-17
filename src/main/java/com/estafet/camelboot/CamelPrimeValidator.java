@@ -12,5 +12,8 @@ public class CamelPrimeValidator extends RouteBuilder {
                 .to("log:foo")
                 .process("validateService")
                 .to("rabbitmq://" + rabbitmqUrl + "/amq.direct");
+
+        from("rabbitmq://" + rabbitmqUrl + "/amq.direct")
+                .to("log:mq");
     }
 }

@@ -11,9 +11,9 @@ public class CamelPrimeValidator extends RouteBuilder {
         from("netty4-http:http://0.0.0.0:8080/isPrime")
                 .to("log:foo")
                 .process("validateService")
-                .to("rabbitmq://" + rabbitmqUrl + "/amq.direct?autoDelete=false");
+                .to("rabbitmq://" + rabbitmqUrl + "/amq.direct?autoDelete=false&routingKey=prime");
 
-        from("rabbitmq://" + rabbitmqUrl + "/amq.direct?autoDelete=false")
+        from("rabbitmq://" + rabbitmqUrl + "/amq.direct?autoDelete=false&routingKey=prime")
                 .to("log:mq");
     }
 }

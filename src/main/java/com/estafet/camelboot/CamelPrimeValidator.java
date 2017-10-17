@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 public class CamelPrimeValidator extends RouteBuilder {
     @Override
     public void configure() throws Exception {
+        String rabbitmqUrl = System.getenv("RABBITMQ_URL");
         from("netty4-http:http://0.0.0.0:8080/isPrime")
                 .to("log:foo")
-                .process("validateService");
+                .process("validateService")
+                .to("rabbitmq://" + rabbitmqUrl + "/");
     }
 }

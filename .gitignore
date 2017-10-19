@@ -1,7 +1,3 @@
 /.idea
 .gitignore
-.idea/.name
-.idea/inspectionProfiles/
-.idea/libraries/Maven__com_rabbitmq_amqp_client_4_1_0.xml
-.idea/libraries/Maven__org_apache_camel_camel_rabbitmq_2_19_2.xml
-.idea/workspace.xml
+

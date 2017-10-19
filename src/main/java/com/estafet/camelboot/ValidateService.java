@@ -30,8 +30,7 @@ public class ValidateService implements Processor {
         log.debug("debugging");
         int num = Integer.parseInt(header.substring(header.indexOf("=") + 1));
 
-        SpanContext spanContext = tracer.extract(Format.Builtin.HTTP_HEADERS, new ObjectMapExtractAdapter(headers));
-        Span span = tracer.buildSpan("ValidatePrime").asChildOf(spanContext).withTag("number", num).startManual();
+        Span span = tracer.buildSpan("ValidatePrime").asChildOf(tracer.activeSpan()).withTag("number", num).startManual();
 
         log.error("error faked");
         boolean prime = num > 1;

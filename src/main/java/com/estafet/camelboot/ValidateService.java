@@ -7,7 +7,10 @@ import io.opentracing.propagation.Format;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
+import org.apache.camel.opentracing.ActiveSpanManager;
+import org.apache.camel.opentracing.propagation.CamelHeadersExtractAdapter;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +29,8 @@ public class ValidateService implements Processor {
 
         int num = Integer.parseInt(header.substring(header.indexOf("=") + 1));
 
-        SpanContext spanContext = tracer.extract(Format.Builtin.HTTP_HEADERS, new ObjectMapExtractAdapter(headers));
-        Span span = tracer.buildSpan("ValidatePrime").asChildOf(spanContext).withTag("number", num).startManual();
+        Span parentSpan = ActiveSpanManager.getSpan(exchange);
+        Span span = tracer.buildSpan("ValidatePrime").asChildOf(parentSpan).withTag("number", num).startManual();
 
         boolean prime = num > 1;
 

@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/**
+ * Example of creating a span manually
+ */
 @Service
 public class ValidateService implements Processor {
     @Autowired
@@ -37,7 +40,11 @@ public class ValidateService implements Processor {
         for (int x = 2; x < num && prime; x++) {
             prime = (num % x) != 0;
         }
+
+        span.setTag("result", prime);
+
         exchange.getOut().setBody("{\"result\": " + prime + "}");
+
         span.finish();
     }
 }
